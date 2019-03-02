@@ -34,7 +34,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .requestMatchers()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/**" ).authenticated()
                 .antMatchers("/swagger-ui.html").permitAll();
     }

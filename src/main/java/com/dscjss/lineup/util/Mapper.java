@@ -14,8 +14,10 @@ public class Mapper {
         }
 
         UserBean userBean = new UserBean();
-        userBean.setId(user.getId());
         userBean.setUsername(user.getUsername());
+        userBean.setFirstName(user.getFirstName());
+        userBean.setLastName(user.getLastName());
+        userBean.setPhone(user.getPhone());
         return userBean;
     }
 

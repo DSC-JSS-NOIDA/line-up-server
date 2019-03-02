@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -60,10 +61,18 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setUsername(userDto.getUsername());
-
+        user.setUniqueCode(generateUniqueToken(userDto));
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
+        user.setPhone(userDto.getPhone());
+        user.setCreatedAt(Instant.now());
         return user;
+    }
+
+    private String generateUniqueToken(UserDto userDto) {
+        return userDto.getUsername();
     }
 
 

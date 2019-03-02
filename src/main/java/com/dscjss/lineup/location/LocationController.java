@@ -31,5 +31,13 @@ public class LocationController {
     }
 
 
+    @GetMapping("/nearest_neighbours")
+    public ResponseEntity nearestNeighbours(Principal principal, @RequestParam double lat, @RequestParam double lng){
+
+        if(principal != null){
+            return ResponseEntity.ok().body(locationService.getNearestNeighbours(new UserBean(principal.getName()), lat, lng));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 
 }

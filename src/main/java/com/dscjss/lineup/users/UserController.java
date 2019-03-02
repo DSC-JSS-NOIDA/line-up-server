@@ -37,39 +37,42 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody() @Valid UserDto user, final BindingResult result){
+    public ResponseEntity signup(@RequestBody() @Valid UserDto user, final BindingResult result) {
+
         UserBean registered = null;
+        boolean userExists = false;
         if (!result.hasErrors()) {
             try {
                 registered = createUserAccount(user);
             } catch (UserExistsException e) {
-                result.rejectValue("username","user.error.registered", "User already registered.");
+                result.rejectValue("username", "user.error.registered", "User already registered.");
+                userExists = true;
             }
         }
+        Map<String, String> errors = new HashMap<>();
+        for(FieldError error : result.getFieldErrors()){
+            errors.put(error.getField(), error.getDefaultMessage());
+        }
 
+        if (userExists) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
+        }
         if (result.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            for(FieldError error : result.getFieldErrors()){
-                errors.put(error.getField(), error.getDefaultMessage());
-            }
-            for(ObjectError objectError : result.getGlobalErrors()){
+            for (ObjectError objectError : result.getGlobalErrors()) {
                 errors.put("user", objectError.getDefaultMessage());
             }
             return ResponseEntity.badRequest().body(errors);
         }
-        return ResponseEntity.ok().body(registered);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registered);
     }
 
     private UserBean createUserAccount(UserDto userDto) throws UserExistsException {
         return userService.registerNewUserAccount(userDto);
     }
 
-    @GetMapping("/location/my_team")
-    public ResponseEntity teamLocation(Principal principal){
-
-        if(principal != null){
-            return ResponseEntity.ok().body(locationService.getTeamLocation(new UserBean(principal.getName())));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    @GetMapping("/users/me")
+    public ResponseEntity user(Principal principal){
+        UserBean userBean = userService.getUserByUsername(principal.getName());
+        return ResponseEntity.ok().body(userBean);
     }
 }

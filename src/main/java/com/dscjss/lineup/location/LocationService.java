@@ -9,4 +9,6 @@ public interface LocationService {
     void log(UserBean userBean, double lat, double lng);
 
     List<LocationDto> getTeamLocation(UserBean userBean);
+
+    List<LocationDto> getNearestNeighbours(UserBean userBean, double lat, double lng);
 }

@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 public class UserDto {
 
 
-    @Pattern(regexp = "^[A-Za-z0-9_]+$", message = "{username.error.special_characters}")
+    @Pattern(regexp = "^[A-Za-z0-9_]+$", message = "{zeal_id.error.special_characters}")
     @NotNull
     @NotEmpty(message = "{field.error.empty}")
     private String username;
@@ -24,6 +24,16 @@ public class UserDto {
     @NotEmpty(message = "{field.error.empty}")
     private String matchingPassword;
 
+    @NotNull
+    @NotEmpty
+    @Pattern(regexp = "^[1-9]{1}[0-9]{9}$", message = "{phone.error.invalid}")
+    private String phone;
+
+    @NotEmpty
+    private String firstName;
+
+    private String lastName;
+
 
     public String getUsername() {
         return username;
@@ -31,6 +41,30 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {

@@ -52,4 +52,11 @@ public class LocationServiceImpl implements LocationService {
         recentLocations.forEach(recentLocation -> locationDtoList.add(Mapper.getRecentLocationDto(recentLocation)));
         return locationDtoList;
     }
+
+    @Override
+    public List<LocationDto> getNearestNeighbours(UserBean userBean, double lat, double lng) {
+        List<Neighbour> nearestNeighbours = locationRepository.findNearestNeighbours(userBean.getUsername(), lat, lng);
+
+        return null;
+    }
 }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -46,8 +47,14 @@ public class User implements Serializable {
     @ManyToOne
     private Team team;
 
-    @Column(name = "unique_code")
+    @Column(name = "unique_code", unique = true)
     private String uniqueCode;
+
+    private int score;
+
+    private String phone;
+
+    private Instant createdAt;
 
     public Integer getId() {
         return id;
@@ -119,5 +126,33 @@ public class User implements Serializable {
 
     public void setUniqueCode(String uniqueCode) {
         this.uniqueCode = uniqueCode;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void incrementScoreByOne(){
+        this.score += 1;
     }
 }

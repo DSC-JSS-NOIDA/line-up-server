@@ -1,0 +1,8 @@
+version: '3'
+services:
+  platform:
+    build: .
+    image: atishaya/line-up
+    env_file:
+      - .env
+    network_mode: "host"
