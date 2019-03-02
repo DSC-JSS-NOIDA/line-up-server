@@ -30,12 +30,11 @@ public class LocationController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-
-    @GetMapping("/nearest_neighbours")
-    public ResponseEntity nearestNeighbours(Principal principal, @RequestParam double lat, @RequestParam double lng){
+    @GetMapping("/nearest_participants")
+    public ResponseEntity nearestParticipants(Principal principal, @RequestParam double lat, @RequestParam double lng){
 
         if(principal != null){
-            return ResponseEntity.ok().body(locationService.getNearestNeighbours(new UserBean(principal.getName()), lat, lng));
+            return ResponseEntity.ok().body(locationService.getNearestParticipants(new UserBean(principal.getName()), lat, lng));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }

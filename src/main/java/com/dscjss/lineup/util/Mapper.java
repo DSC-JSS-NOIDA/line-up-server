@@ -1,6 +1,8 @@
 package com.dscjss.lineup.util;
 
+import com.dscjss.lineup.location.Neighbour;
 import com.dscjss.lineup.location.dto.LocationDto;
+import com.dscjss.lineup.location.dto.NeighbourDto;
 import com.dscjss.lineup.location.model.RecentLocation;
 import com.dscjss.lineup.users.dto.UserBean;
 import com.dscjss.lineup.users.model.User;
@@ -31,5 +33,15 @@ public class Mapper {
         locationDto.setLng(recentLocation.getLng());
         locationDto.setLastUpdatedAt(recentLocation.getLastUpdatedAt());
         return locationDto;
+    }
+
+    public static NeighbourDto getLocationDto(Neighbour neighbour) {
+
+        if(neighbour == null){
+            return null;
+        }
+        NeighbourDto neighbourDto = new NeighbourDto();
+        neighbourDto.setDistance(neighbour.getDistance());
+        return neighbourDto;
     }
 }

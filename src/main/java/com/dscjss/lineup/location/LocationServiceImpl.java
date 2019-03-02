@@ -1,6 +1,7 @@
 package com.dscjss.lineup.location;
 
 import com.dscjss.lineup.location.dto.LocationDto;
+import com.dscjss.lineup.location.dto.NeighbourDto;
 import com.dscjss.lineup.location.model.RecentLocation;
 import com.dscjss.lineup.users.UserRepository;
 import com.dscjss.lineup.users.dto.UserBean;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -54,9 +56,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<LocationDto> getNearestNeighbours(UserBean userBean, double lat, double lng) {
+    public List<NeighbourDto> getNearestParticipants(UserBean userBean, double lat, double lng) {
         List<Neighbour> nearestNeighbours = locationRepository.findNearestNeighbours(userBean.getUsername(), lat, lng);
-
-        return null;
+        return nearestNeighbours.stream().map(Mapper::getLocationDto).collect(Collectors.toList());
     }
 }
