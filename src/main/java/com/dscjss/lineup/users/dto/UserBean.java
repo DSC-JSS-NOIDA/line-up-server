@@ -31,7 +31,6 @@ public class UserBean {
 
     private int score;
 
-
     @JsonIgnore
     public int getId() {
         return id;

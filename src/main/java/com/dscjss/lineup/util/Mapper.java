@@ -12,12 +12,12 @@ public class Mapper {
         if(user == null){
             return null;
         }
-
         UserBean userBean = new UserBean();
         userBean.setUsername(user.getUsername());
         userBean.setFirstName(user.getFirstName());
         userBean.setLastName(user.getLastName());
         userBean.setPhone(user.getPhone());
+        userBean.setScore(user.getScore());
         return userBean;
     }
 

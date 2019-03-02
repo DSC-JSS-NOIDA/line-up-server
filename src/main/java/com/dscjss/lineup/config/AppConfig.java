@@ -1,5 +1,8 @@
 package com.dscjss.lineup.config;
 
+import com.dscjss.lineup.filter.TimeBasedRequestFilter;
+import com.dscjss.lineup.game.GameDetails;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,4 +27,18 @@ public class AppConfig implements WebMvcConfigurer {
         bean.setValidationMessageSource(messageSource());
         return bean;
     }
+
+    @Bean
+    public FilterRegistrationBean<TimeBasedRequestFilter> loggingFilter(){
+        FilterRegistrationBean<TimeBasedRequestFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new TimeBasedRequestFilter(gameDetails()));
+        registrationBean.addUrlPatterns("/api/**");
+        return registrationBean;
+    }
+
+    @Bean
+    public GameDetails gameDetails(){
+        return new GameDetails();
+    }
+
 }

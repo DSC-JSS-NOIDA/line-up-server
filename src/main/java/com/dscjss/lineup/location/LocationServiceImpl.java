@@ -30,7 +30,7 @@ public class LocationServiceImpl implements LocationService {
     @Transactional
     public void log(UserBean userBean, double lat, double lng) {
         User user = userRepository.findByUsername(userBean.getUsername());
-        RecentLocation recentLocation = locationRepository.findByUserId(userBean.getId());
+        RecentLocation recentLocation = locationRepository.findByUserId(user.getId());
         if(recentLocation == null){
             recentLocation = new RecentLocation();
             recentLocation.setUser(user);

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 
@@ -18,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, PagingAndS
     Optional<User> findByUniqueCode(String code);
 
     @Query(value = "SELECT IF((SELECT team_id FROM user WHERE user.id = ?1) = (SELECT team_id FROM user WHERE user.id = ?2), TRUE, FALSE) AS ans", nativeQuery = true)
-    boolean areTeamMembers(int userId1, int userId2);
+    BigInteger areTeamMembers(int userId1, int userId2);
 
 
     /*@Query(value = "")

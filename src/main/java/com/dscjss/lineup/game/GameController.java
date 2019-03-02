@@ -31,15 +31,22 @@ public class GameController {
         Map<String, String> map = new HashMap<>();
         if(principal != null){
             String username = principal.getName();
-            if(gameService.isValidScan(username, code, lat, lng) == Constants.VALID_CODE){
+            int codeStatus = gameService.isValidScan(username, code, lat, lng);
+            if(codeStatus == Constants.CORRECT_CODE){
                 map.put("valid", String.valueOf(true));
                 map.put("message", "You found your teammate.");
-            }else if(gameService.isValidScan(username, code, lat, lng) == Constants.INVALID_CODE){
+            }else if(codeStatus == Constants.WRONG_CODE){
                 map.put("valid", String.valueOf(false));
-                map.put("message", "Not your teammate. Try again.");
-            }else{
+                map.put("message", "Sorry, the person is not your teammate.");
+            }else if(codeStatus == Constants.SAME_CODE) {
+                map.put("valid", String.valueOf(false));
+                map.put("message", "You obviously can't scan your code.");
+            }else if(codeStatus == Constants.ALREADY_SCANNED_CODE){
                 map.put("valid", String.valueOf(false));
                 map.put("message", "You already scanned this code before.");
+            }else{
+                map.put("valid", String.valueOf(false));
+                map.put("message", "You scanned an invalid code.");
             }
             return ResponseEntity.ok(map);
         }
@@ -58,6 +65,7 @@ public class GameController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
 
 
 

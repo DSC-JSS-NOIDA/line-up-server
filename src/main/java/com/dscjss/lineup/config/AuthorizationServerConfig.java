@@ -1,6 +1,7 @@
 package com.dscjss.lineup.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,8 +26,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private final UserDetailsService userDetailsService;
 
-
     private final PasswordEncoder passwordEncoder;
+
+
+    @Value("${app.client.id}")
+    private String clientId;
+
+    @Value("${app.client.secret}")
+    private String clientSecret;
+
 
     @Autowired
     public AuthorizationServerConfig(TokenStore tokenStore, JwtAccessTokenConverter accessTokenConverter, AuthenticationManager authenticationManager, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
@@ -41,12 +49,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
         configurer
         .inMemory()
-                .withClient("line_up_app")
+                .withClient(clientId)
                 .scopes("read", "write")
                 .authorizedGrantTypes("password", "refresh_token")
                 .authorities("ROLE_CLIENT","ROLE_TRUSTED_CLIENT")
-                .secret(passwordEncoder.encode("dscjss123"))
-                .accessTokenValiditySeconds(1800);
+                .secret(passwordEncoder.encode(clientSecret))
+                .accessTokenValiditySeconds(18000);
     }
 
 

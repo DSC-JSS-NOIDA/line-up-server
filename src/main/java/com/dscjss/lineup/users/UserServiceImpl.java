@@ -32,11 +32,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        return null;
-    }
-
-    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public UserBean registerNewUserAccount(UserDto userDto) throws UserExistsException {
 
@@ -51,10 +46,7 @@ public class UserServiceImpl implements UserService {
 
     private boolean usernameExists(String username) {
         User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
     private User createUser(UserDto userDto){

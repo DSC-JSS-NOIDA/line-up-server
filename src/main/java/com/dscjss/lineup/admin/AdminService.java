@@ -2,5 +2,9 @@ package com.dscjss.lineup.admin;
 
 public interface AdminService {
 
-    public void updateSettings(Settings settings);
+    void reloadSettings();
+
+    void updateSettings(Settings settings);
+
+    void createTeams();
 }

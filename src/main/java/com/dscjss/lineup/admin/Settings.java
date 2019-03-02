@@ -15,6 +15,22 @@ public class Settings {
 
     private Instant endTime;
 
+    public Settings() {
+    }
+
+    public Settings(Instant startTime, Instant endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Instant getStartTime() {
         return startTime;
     }
