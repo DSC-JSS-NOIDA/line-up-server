@@ -4,6 +4,7 @@ import com.dscjss.lineup.location.Neighbour;
 import com.dscjss.lineup.location.dto.LocationDto;
 import com.dscjss.lineup.location.dto.NeighbourDto;
 import com.dscjss.lineup.location.model.RecentLocation;
+import com.dscjss.lineup.users.Player;
 import com.dscjss.lineup.users.dto.UserBean;
 import com.dscjss.lineup.users.model.User;
 
@@ -15,11 +16,29 @@ public class Mapper {
             return null;
         }
         UserBean userBean = new UserBean();
+        userBean.setId(user.getId());
         userBean.setUsername(user.getUsername());
         userBean.setFirstName(user.getFirstName());
         userBean.setLastName(user.getLastName());
+        userBean.setUniqueCode(user.getUniqueCode());
         userBean.setPhone(user.getPhone());
         userBean.setScore(user.getScore());
+        userBean.setTotalTimeTaken(user.getDuration().toMillis());
+        return userBean;
+    }
+
+    public static UserBean getUserBean(Player player) {
+        if(player == null){
+            return null;
+        }
+        UserBean userBean = new UserBean();
+        userBean.setUsername(player.getUsername());
+        userBean.setFirstName(player.getFirstName());
+        userBean.setLastName(player.getLastName());
+        userBean.setPhone(player.getPhone());
+        userBean.setUniqueCode(player.getUniqueCode());
+        userBean.setTotalTimeTaken(player.getDuration());
+        userBean.setScore(player.getScore());
         return userBean;
     }
 

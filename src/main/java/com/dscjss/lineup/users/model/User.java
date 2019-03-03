@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -55,6 +56,8 @@ public class User implements Serializable {
     private String phone;
 
     private Instant createdAt;
+
+    private Duration duration;
 
 
     public int getId() {
@@ -155,5 +158,13 @@ public class User implements Serializable {
 
     public void incrementScoreByOne(){
         this.score += 1;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }

@@ -15,6 +15,5 @@ public interface UserService {
 
     void createAdmin();
 
-    UserBean getUserByUsername(String username);
-
+    UserBean getUserByUsername(String username, boolean onlySummary);
 }

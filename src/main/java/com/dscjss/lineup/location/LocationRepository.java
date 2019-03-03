@@ -24,7 +24,7 @@ public interface LocationRepository extends JpaRepository<RecentLocation, Intege
             "                           * sin( radians( lat ) ) " +
             "                   ) " +
             "                 )*1000,0)) AS distance, " +
-            " user_id, lat, lng, last_updated_at FROM recent_user_location JOIN user u on recent_user_location.user_id = u.id " +
+            " user_id AS userId, lat, lng, last_updated_at AS lastUpdatedAt FROM recent_user_location JOIN user u on recent_user_location.user_id = u.id " +
             "    WHERE u.username != ?1 ORDER BY  distance ASC LIMIT 5;", nativeQuery = true)
-    List<Neighbour> findNearestNeighbours(String username, double lat, double lng);
+    List<Neighbour> findNearestParticipants(String username, double lat, double lng);
 }

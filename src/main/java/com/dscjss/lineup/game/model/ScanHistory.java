@@ -4,6 +4,7 @@ package com.dscjss.lineup.game.model;
 import com.dscjss.lineup.users.model.User;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "scan_history")
@@ -21,7 +22,13 @@ public class ScanHistory {
 
     private String code; // scanned code
 
-    private boolean correct;
+    private int status;
+
+    private Instant scannedAt;
+
+    private double lat;
+
+    private double lng;
 
     public int getId() {
         return id;
@@ -55,11 +62,35 @@ public class ScanHistory {
         this.code = code;
     }
 
-    public boolean isCorrect() {
-        return correct;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCorrect(boolean correct) {
-        this.correct = correct;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Instant getScannedAt() {
+        return scannedAt;
+    }
+
+    public void setScannedAt(Instant scannedAt) {
+        this.scannedAt = scannedAt;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 }

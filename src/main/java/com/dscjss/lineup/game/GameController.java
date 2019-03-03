@@ -44,6 +44,9 @@ public class GameController {
             }else if(codeStatus == Constants.ALREADY_SCANNED_CODE){
                 map.put("valid", String.valueOf(false));
                 map.put("message", "You already scanned this code before.");
+            }else if(codeStatus == Constants.TARGET_ALREADY_SCANNED_CODE){
+                map.put("valid", String.valueOf(true));
+                map.put("message", "You have received the score for this code.");
             }else{
                 map.put("valid", String.valueOf(false));
                 map.put("message", "You scanned an invalid code.");

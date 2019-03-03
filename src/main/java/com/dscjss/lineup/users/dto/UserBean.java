@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Duration;
+import java.util.List;
 
 public class UserBean {
 
@@ -27,9 +28,19 @@ public class UserBean {
 
     private int totalScans;
 
-    private Duration totalTimeTaken;
+    private long totalTimeTaken;
 
     private int score;
+
+    private int position;
+
+    private String uniqueCode;
+
+    private List<UserBean> teammatesFound;
+
+    private double lat;
+
+    private double lng;
 
     @JsonIgnore
     public int getId() {
@@ -80,11 +91,11 @@ public class UserBean {
         this.totalScans = totalScans;
     }
 
-    public Duration getTotalTimeTaken() {
+    public long getTotalTimeTaken() {
         return totalTimeTaken;
     }
 
-    public void setTotalTimeTaken(Duration totalTimeTaken) {
+    public void setTotalTimeTaken(long totalTimeTaken) {
         this.totalTimeTaken = totalTimeTaken;
     }
 
@@ -94,5 +105,45 @@ public class UserBean {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String getUniqueCode() {
+        return uniqueCode;
+    }
+
+    public void setUniqueCode(String uniqueCode) {
+        this.uniqueCode = uniqueCode;
+    }
+
+    public List<UserBean> getTeammatesFound() {
+        return teammatesFound;
+    }
+
+    public void setTeammatesFound(List<UserBean> teammatesFound) {
+        this.teammatesFound = teammatesFound;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 }

@@ -4,19 +4,22 @@ import com.dscjss.lineup.users.dto.UserBean;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public class Leaderboard {
 
-    Page<UserBean> page;
+    @JsonProperty("users")
+    private List<UserBean> userBeanList;
 
     @JsonProperty("current_user")
-    UserBean currentUser;
+    private UserBean currentUser;
 
-    public Page<UserBean> getPage() {
-        return page;
+    public List<UserBean> getUserBeanList() {
+        return userBeanList;
     }
 
-    public void setPage(Page<UserBean> page) {
-        this.page = page;
+    public void setUserBeanList(List<UserBean> userBeanList) {
+        this.userBeanList = userBeanList;
     }
 
     public UserBean getCurrentUser() {

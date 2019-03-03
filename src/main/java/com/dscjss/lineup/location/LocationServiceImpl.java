@@ -57,7 +57,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<NeighbourDto> getNearestParticipants(UserBean userBean, double lat, double lng) {
-        List<Neighbour> nearestNeighbours = locationRepository.findNearestNeighbours(userBean.getUsername(), lat, lng);
-        return nearestNeighbours.stream().map(Mapper::getLocationDto).collect(Collectors.toList());
+        List<Neighbour> nearestParticipants = locationRepository.findNearestParticipants(userBean.getUsername(), lat, lng);
+        return nearestParticipants.stream().map(Mapper::getLocationDto).collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package com.dscjss.lineup.users;
 
+import com.dscjss.lineup.game.GameService;
 import com.dscjss.lineup.users.dto.UserBean;
 import com.dscjss.lineup.users.dto.UserDto;
 import com.dscjss.lineup.users.exception.UserExistsException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
@@ -24,11 +26,14 @@ public class UserServiceImpl implements UserService {
 
     private RoleRepository roleRepository;
 
+    private final GameService gameService;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, GameService gameService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.gameService = gameService;
     }
 
     @Override
@@ -60,6 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         user.setPhone(userDto.getPhone());
         user.setCreatedAt(Instant.now());
+        user.setDuration(Duration.ZERO);
         return user;
     }
 
@@ -78,14 +84,22 @@ public class UserServiceImpl implements UserService {
             user.setUsername("admin");
             user.setPassword(passwordEncoder.encode("admin123"));
             user.setRoles(new HashSet<>(Arrays.asList(adminRole)));
+            user.setDuration(Duration.ZERO);
             userRepository.save(user);
         }
     }
 
     @Override
-    public UserBean getUserByUsername(String username) {
-        return Mapper.getUserBean(userRepository.findByUsername(username));
+    public UserBean getUserByUsername(String username, boolean onlySummary) {
+        UserBean userBean = gameService.getUserDetails(username);
+        if(onlySummary){
+            return userBean;
+        } else{
+            userBean.setTeammatesFound(gameService.getTeammatesFound(userBean.getId()));
+        }
+        return userBean;
     }
+
 
 
 }

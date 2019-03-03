@@ -72,7 +72,7 @@ public class UserController {
 
     @GetMapping("/users/me")
     public ResponseEntity user(Principal principal){
-        UserBean userBean = userService.getUserByUsername(principal.getName());
+        UserBean userBean = userService.getUserByUsername(principal.getName(), true);
         return ResponseEntity.ok().body(userBean);
     }
 }

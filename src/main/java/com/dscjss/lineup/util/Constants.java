@@ -7,5 +7,7 @@ public class Constants {
     public static final int ALREADY_SCANNED_CODE = 3;
     public static final int INVALID_CODE = 4;
     public static final int SAME_CODE = 5;
+    public static final int TARGET_ALREADY_SCANNED_CODE = 6;
+
 
 }
