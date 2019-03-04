@@ -55,6 +55,10 @@ public class TimeBasedRequestFilter implements Filter {
             httpServletResponse.setStatus(HttpStatus.PRECONDITION_REQUIRED.value());
             filter = false;
             logger.info("Filtered Request SignUp not started.");
+        }else if(httpServletRequest.getRequestURI().equals("/api/signup")){
+            logger.info("Filtered Request {}.", httpServletRequest.getRequestURI());
+            filter = true;
+            logger.info("Filtered Request SignUp started.");
         } else if(gameDetails.getSettings().getStartTime().isAfter(now)){
             logger.info("Filtered Request {}.", httpServletRequest.getRequestURI());
             httpServletResponse.setStatus(HttpStatus.PRECONDITION_REQUIRED.value());
