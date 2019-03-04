@@ -1,18 +1,15 @@
 package com.dscjss.lineup.game;
 
+import com.dscjss.lineup.game.dto.SettingsDto;
 import com.dscjss.lineup.game.dto.Leaderboard;
-import com.dscjss.lineup.game.exception.InvalidCodeException;
 import com.dscjss.lineup.game.model.ScanHistory;
 import com.dscjss.lineup.users.Player;
 import com.dscjss.lineup.users.UserRepository;
-import com.dscjss.lineup.users.UserService;
 import com.dscjss.lineup.users.dto.UserBean;
 import com.dscjss.lineup.users.model.User;
 import com.dscjss.lineup.util.Constants;
 import com.dscjss.lineup.util.Mapper;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +18,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,5 +106,10 @@ public class GameServiceImpl implements GameService {
             userBean.setLng(player.getLng());
             return userBean;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public SettingsDto getGameDetails() {
+        return Mapper.getSettingsDto(gameDetails.getSettings());
     }
 }

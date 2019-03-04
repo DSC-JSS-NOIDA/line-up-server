@@ -1,6 +1,7 @@
 package com.dscjss.lineup.users;
 
 
+import com.dscjss.lineup.game.GameDetails;
 import com.dscjss.lineup.location.LocationService;
 import com.dscjss.lineup.users.dto.UserBean;
 import com.dscjss.lineup.users.dto.UserDto;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -29,15 +31,26 @@ public class UserController {
 
     private final UserService userService;
     private final LocationService locationService;
+    private final GameDetails gameDetails;
 
     @Autowired
-    public UserController(UserService userService, MessageSource messageSource, LocationService locationService) {
+    public UserController(UserService userService, MessageSource messageSource, LocationService locationService, GameDetails gameDetails) {
         this.userService = userService;
         this.locationService = locationService;
+        this.gameDetails = gameDetails;
     }
 
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody() @Valid UserDto user, final BindingResult result) {
+
+        Instant now = Instant.now();
+
+        if(gameDetails.getSettings().getSignUpEndTime().isBefore(now)
+            || gameDetails.getSettings().getSignUpStartTime().isAfter(now)){
+            Map<String, String> map = new HashMap<>();
+            map.put("error", "Sign Up request cannot be processed now, contact us through our facebook page for any queries.");
+            return ResponseEntity.badRequest().body(map);
+        }
 
         UserBean registered = null;
         boolean userExists = false;
@@ -55,11 +68,13 @@ public class UserController {
         }
 
         if (userExists) {
+            errors.clear();
+            errors.put("error", "You have already registered for the event.");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
         }
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getGlobalErrors()) {
-                errors.put("user", objectError.getDefaultMessage());
+                errors.put("error", objectError.getDefaultMessage());
             }
             return ResponseEntity.badRequest().body(errors);
         }
@@ -72,7 +87,7 @@ public class UserController {
 
     @GetMapping("/users/me")
     public ResponseEntity user(Principal principal){
-        UserBean userBean = userService.getUserByUsername(principal.getName(), true);
+        UserBean userBean = userService.getUserByUsername(principal.getName(), false);
         return ResponseEntity.ok().body(userBean);
     }
 }

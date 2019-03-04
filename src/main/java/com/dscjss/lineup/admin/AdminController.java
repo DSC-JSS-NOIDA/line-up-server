@@ -3,10 +3,7 @@ package com.dscjss.lineup.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -37,8 +34,8 @@ public class AdminController {
 
 
     @GetMapping("/create_teams")
-    public ResponseEntity createTeams(Principal principal){
-        adminService.createTeams();
+    public ResponseEntity createTeams(Principal principal, @RequestParam("member_count") int memberCount){
+        adminService.createTeams(memberCount);
         return ResponseEntity.ok().build();
     }
 

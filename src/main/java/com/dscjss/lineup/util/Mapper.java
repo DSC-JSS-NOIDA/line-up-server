@@ -1,5 +1,7 @@
 package com.dscjss.lineup.util;
 
+import com.dscjss.lineup.admin.Settings;
+import com.dscjss.lineup.game.dto.SettingsDto;
 import com.dscjss.lineup.location.Neighbour;
 import com.dscjss.lineup.location.dto.LocationDto;
 import com.dscjss.lineup.location.dto.NeighbourDto;
@@ -10,6 +12,7 @@ import com.dscjss.lineup.users.model.User;
 
 public class Mapper {
 
+    private final static  String[] directions = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"};
 
     public static UserBean getUserBean(User user) {
         if(user == null){
@@ -32,6 +35,7 @@ public class Mapper {
             return null;
         }
         UserBean userBean = new UserBean();
+        userBean.setId(player.getId());
         userBean.setUsername(player.getUsername());
         userBean.setFirstName(player.getFirstName());
         userBean.setLastName(player.getLastName());
@@ -61,6 +65,22 @@ public class Mapper {
         }
         NeighbourDto neighbourDto = new NeighbourDto();
         neighbourDto.setDistance(neighbour.getDistance());
+        neighbourDto.setDirection(directions[ ((int)Math.round(neighbour.getBearing() / 45)) % 8]);
         return neighbourDto;
+    }
+
+    public static SettingsDto getSettingsDto(Settings settings){
+        if(settings == null){
+            return null;
+        }
+
+        SettingsDto settingsDto = new SettingsDto();
+        settingsDto.setStartTime(settings.getStartTime());
+        settingsDto.setEndTime(settings.getEndTime());
+        settingsDto.setSignUpStartTime(settings.getSignUpStartTime());
+        settingsDto.setSignUpEndTime(settings.getSignUpEndTime());
+
+        return settingsDto;
+
     }
 }

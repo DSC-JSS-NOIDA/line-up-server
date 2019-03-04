@@ -2,6 +2,7 @@ package com.dscjss.lineup.config;
 
 import com.dscjss.lineup.filter.TimeBasedRequestFilter;
 import com.dscjss.lineup.game.GameDetails;
+import com.dscjss.lineup.users.RandomStringGenerator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +40,11 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public GameDetails gameDetails(){
         return new GameDetails();
+    }
+
+    @Bean
+    public RandomStringGenerator randomStringGenerator(){
+        return new RandomStringGenerator(15);
     }
 
 }

@@ -39,7 +39,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, PagingAndS
             "       @last_score \\:= u.score, @last_duration \\:= u.duration\n" +
             "FROM user u CROSS JOIN\n" +
             "     (SELECT @last_score \\:= -1, @last_duration \\:= -1, @rn \\:= 0, @seq \\:= 0) AS params\n" +
-            "ORDER BY u.score DESC , u.duration ASC) AS ranks WHERE username = 'ZO_123'",nativeQuery = true)
+            "ORDER BY u.score DESC , u.duration ASC) AS ranks WHERE username = ?1",nativeQuery = true)
     Player findUserDetails(String username);
 
 

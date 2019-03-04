@@ -15,16 +15,13 @@ public interface LocationRepository extends JpaRepository<RecentLocation, Intege
     List<RecentLocation> findTeamMembersRecentLocation(String user);
 
 
-    @Query(value = "SELECT (SELECT ROUND((" +
-            "                   6371 * acos (" +
-            "                         cos ( radians(?2) ) " +
-            "                         * cos( radians( lat ) ) " +
-            "                         * cos( radians( lng ) - radians(?3) ) " +
-            "                       + sin ( radians(?2) ) " +
-            "                           * sin( radians( lat ) ) " +
-            "                   ) " +
-            "                 )*1000,0)) AS distance, " +
-            " user_id AS userId, lat, lng, last_updated_at AS lastUpdatedAt FROM recent_user_location JOIN user u on recent_user_location.user_id = u.id " +
-            "    WHERE u.username != ?1 ORDER BY  distance ASC LIMIT 5;", nativeQuery = true)
+    @Query(value = "  SELECT * FROM (SELECT ROUND((6371 * acos (cos ( radians(?2) ) * cos( radians( rcu.lat ) )  * cos( radians( rcu.lng ) - radians(?3) )" +
+            "                         + sin ( radians(?2) )* sin( radians( rcu.lat ) )" +
+            "                     ))*1000,0) AS distance , " +
+            "                        ((360.0 + degrees(atan2( sin(radians(rcu.lng-?3))*cos(radians(rcu.lat))," +
+            "                           cos(radians(?2))*sin(radians(rcu.lat))-sin(radians(?2))*cos(radians(rcu.lat))*" +
+            "                            cos(radians(rcu.lng-?3))))) % 360.0) AS bearing," +
+            "    user_id AS userId, lat, lng, last_updated_at AS lastUpdatedAt FROM recent_user_location rcu JOIN user u on rcu.user_id = u.id" +
+            "      WHERE u.username != ?1 ORDER BY distance ASC) AS t  WHERE t.distance < 500000000  LIMIT 5", nativeQuery = true)
     List<Neighbour> findNearestParticipants(String username, double lat, double lng);
 }

@@ -1,5 +1,6 @@
 package com.dscjss.lineup.game;
 
+import com.dscjss.lineup.game.dto.SettingsDto;
 import com.dscjss.lineup.game.dto.Leaderboard;
 import com.dscjss.lineup.users.dto.UserBean;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,6 @@ public interface GameService {
     List<UserBean> getTeammatesFound(int id);
 
     UserBean getUserDetails(String username);
+
+    SettingsDto getGameDetails();
 }

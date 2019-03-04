@@ -16,7 +16,6 @@ public class DurationConverter implements AttributeConverter<Duration, Long> {
     @Override
     public Long convertToDatabaseColumn(Duration attribute) {
         if(attribute != null) {
-            logger.info("Convert to Long");
             return attribute.toMillis();
         }
         return 0L;
@@ -24,7 +23,6 @@ public class DurationConverter implements AttributeConverter<Duration, Long> {
 
     @Override
     public Duration convertToEntityAttribute(Long duration) {
-        logger.info("Convert to Duration");
         if(duration != null) {
             return Duration.of(duration, ChronoUnit.MILLIS);
         }

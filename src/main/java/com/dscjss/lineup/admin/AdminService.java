@@ -8,7 +8,5 @@ public interface AdminService {
 
     void updateSettings(Settings settings);
 
-    void createTeams();
-
-
+    void createTeams(int memberCount);
 }

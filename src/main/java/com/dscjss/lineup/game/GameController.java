@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,17 +20,27 @@ import java.util.Map;
 public class GameController {
 
     private final GameService gameService;
+    private final GameDetails gameDetails;
 
     @Autowired
-    public GameController(GameService gameService) {
+    public GameController(GameService gameService, GameDetails gameDetails) {
         this.gameService = gameService;
+        this.gameDetails = gameDetails;
     }
 
     @PostMapping("/validate_scan")
     public ResponseEntity validateQR(Principal principal, @RequestParam String code, @RequestParam double lat, @RequestParam double lng){
 
+        Instant now = Instant.now();
+
+
         Map<String, String> map = new HashMap<>();
         if(principal != null){
+            if(gameDetails.getSettings().getEndTime().isBefore(now)){
+                map.put("error", "Event has ended. Winners will be announced shortly.");
+                return ResponseEntity.badRequest().body(map);
+            }
+
             String username = principal.getName();
             int codeStatus = gameService.isValidScan(username, code, lat, lng);
             if(codeStatus == Constants.CORRECT_CODE){
@@ -45,7 +56,7 @@ public class GameController {
                 map.put("valid", String.valueOf(false));
                 map.put("message", "You already scanned this code before.");
             }else if(codeStatus == Constants.TARGET_ALREADY_SCANNED_CODE){
-                map.put("valid", String.valueOf(true));
+                map.put("valid", String.valueOf(false));
                 map.put("message", "You have received the score for this code.");
             }else{
                 map.put("valid", String.valueOf(false));
@@ -70,6 +81,10 @@ public class GameController {
     }
 
 
+    @GetMapping("/event_details")
+    public ResponseEntity eventDetails(){
+        return ResponseEntity.ok(gameService.getGameDetails());
+    }
 
 
 }

@@ -42,7 +42,6 @@ public class UserBean {
 
     private double lng;
 
-    @JsonIgnore
     public int getId() {
         return id;
     }

@@ -16,5 +16,7 @@ public interface Neighbour {
 
     double getLng();
 
+    double getBearing();
+
 
 }

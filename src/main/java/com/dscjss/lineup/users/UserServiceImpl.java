@@ -28,12 +28,15 @@ public class UserServiceImpl implements UserService {
 
     private final GameService gameService;
 
+    private final RandomStringGenerator randomStringGenerator;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, GameService gameService) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, GameService gameService, RandomStringGenerator randomStringGenerator) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.gameService = gameService;
+        this.randomStringGenerator = randomStringGenerator;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private String generateUniqueToken(UserDto userDto) {
-        return userDto.getUsername();
+        return randomStringGenerator.nextString();
     }
 
 
@@ -82,7 +85,7 @@ public class UserServiceImpl implements UserService {
         if(admin == null){
             User user = new User();
             user.setUsername("admin");
-            user.setPassword(passwordEncoder.encode("admin123"));
+            user.setPassword(passwordEncoder.encode("admindsc19"));
             user.setRoles(new HashSet<>(Arrays.asList(adminRole)));
             user.setDuration(Duration.ZERO);
             userRepository.save(user);
